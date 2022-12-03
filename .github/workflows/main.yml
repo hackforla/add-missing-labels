@@ -12,3 +12,4 @@ jobs:
         uses: Aveline-art/javascript-template-test@main
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
+          testExtra: dajdasdahdakd
