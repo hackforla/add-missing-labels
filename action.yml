@@ -1,0 +1,5 @@
+name: "missing-labels"
+description: "test"
+runs:
+  using: "node16"
+  main: "dist/index.js"

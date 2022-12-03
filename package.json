@@ -1,0 +1,20 @@
+{
+  "name": "missing-labels",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts && ncc build index.js --license licenses.txt",
+    "test": "tsc --showConfig"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "@types/node": "^18.11.10",
+    "@vercel/ncc": "^0.34.0",
+    "typescript": "^4.9.3"
+  }
+}
