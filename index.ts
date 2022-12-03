@@ -8,20 +8,15 @@ interface mapping {
   [key: string]: string;
 }
 
-const label_type_to_label_mapping: mapping = {
-  size: "size: missing",
-  role: "role missing",
-  Feature: "Feature Missing",
-};
-
 function main() {
-  const myToken = core.getInput("myToken");
-  const octokit = github.getOctokit(myToken);
+  const githubToken = core.getInput("githubToken");
+  const mapping = getMapping();
+  const octokit = github.getOctokit(githubToken);
   const repository = github.context.repo;
   const payload = github.context.payload as IssuesEvent;
   const labels = payload.issue.labels?.map((x: Label) => x?.name);
 
-  const leftovers = get_leftover_labels(labels ? labels : []);
+  const leftovers = getLeftoverLabels(mapping, labels ? labels : []);
   const values = Object.values(leftovers);
   const properties = Object.keys(leftovers);
   /*
@@ -34,13 +29,26 @@ function main() {
   console.log(process.env);
 }
 
-function get_leftover_labels(labels: string[]) {
+function getLeftoverLabels(mapping: mapping, labels: string[]) {
   for (const label of labels) {
-    const split_label = label.split(":");
-    const base_label = split_label[0].toLowerCase().trim();
-    delete label_type_to_label_mapping[base_label];
+    const splitLabel = label.split(":");
+    const baseLabel = splitLabel[0].toLowerCase().trim();
+    delete mapping[baseLabel];
   }
-  return label_type_to_label_mapping;
+  return mapping;
+}
+
+function getMapping() {
+  const labelMapping: mapping = {};
+  for (var key in process.env) {
+    if (key.indexOf("INPUT_MAP") == 0) {
+      const mapData = process.env[key] as string;
+      const [labelType, missingLabel] = mapData.split("~");
+      labelMapping[labelType.trim()] = missingLabel.trim();
+    }
+  }
+  console.log(labelMapping);
+  return labelMapping;
 }
 
 main();

@@ -12,4 +12,6 @@ jobs:
         uses: Aveline-art/javascript-template-test@main
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
-          testExtra: dajdasdahdakd
+          map1: "size ~ size: missing"
+          map2: "Feature ~ Feature: missing"
+          map3: "role ~ role: missing"
