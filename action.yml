@@ -1,5 +1,9 @@
 name: "missing-labels"
 description: "test"
+inputs:
+  myToken:
+    description: "Token"
+    required: true
 runs:
   using: "node16"
   main: "dist/index.js"

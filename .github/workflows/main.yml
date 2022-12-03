@@ -8,3 +8,5 @@ jobs:
       - name: Hello world action step
         id: hello
         uses: Aveline-art/javascript-template-test@main
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
