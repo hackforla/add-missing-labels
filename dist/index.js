@@ -9507,6 +9507,73 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 4177:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const github = __importStar(__nccwpck_require__(5438));
+const label_type_to_label_mapping = {
+    size: "size: missing",
+    role: "role missing",
+    Feature: "Feature Missing",
+};
+function main() {
+    const myToken = core.getInput("myToken");
+    const octokit = github.getOctokit(myToken);
+    const repository = github.context.repo;
+    const payload = github.context.payload;
+    const labels = payload.issue.labels?.map((x) => x?.name);
+    const leftovers = get_leftover_labels(labels ? labels : []);
+    const values = Object.values(leftovers);
+    const properties = Object.keys(leftovers);
+    /*
+    octokit.rest.issues.addLabels({
+      owner: repository.owner,
+      repo: repository.repo,
+      issue_number: payload.issue.number,
+      labels: values,
+    });*/
+    console.log(process.env);
+}
+function get_leftover_labels(labels) {
+    for (const label of labels) {
+        const split_label = label.split(":");
+        const base_label = split_label[0].toLowerCase().trim();
+        delete label_type_to_label_mapping[base_label];
+    }
+    return label_type_to_label_mapping;
+}
+main();
+
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
@@ -9681,31 +9748,12 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-var exports = __webpack_exports__;
-
-exports.__esModule = true;
-var core = __nccwpck_require__(2186);
-var github = __nccwpck_require__(5438);
-var label_type_to_label_mapping = {
-    size: "size: missing",
-    role: "role missing",
-    Feature: "Feature Missing"
-};
-function main() {
-    var myToken = core.getInput("myToken");
-    var octokit = github.getOctokit(myToken);
-    var payload = github.context.payload;
-    console.log(JSON.stringify(payload));
-}
-function get_leftover_labels() { }
-main();
-
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(4177);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;

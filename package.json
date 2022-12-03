@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc index.ts && ncc build index.js --license licenses.txt",
+    "build": "ncc build index.ts --license licenses.txt",
     "test": "tsc --showConfig"
   },
   "keywords": [],
@@ -13,6 +13,7 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
+    "@octokit/webhooks-definitions": "^3.67.3",
     "@types/node": "^18.11.10",
     "@vercel/ncc": "^0.34.0",
     "typescript": "^4.9.3"
