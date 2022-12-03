@@ -44,8 +44,8 @@ function getMapping() {
     if (key.indexOf("INPUT_MAP") == 0) {
       const mapData = process.env[key] as string;
       console.log(mapData);
-      const [labelType, missingLabel] = mapData.split("~");
-      labelMapping[labelType.trim()] = missingLabel.trim();
+      //const [labelType, missingLabel] = mapData.split("~");
+      //labelMapping[labelType.trim()] = missingLabel.trim();
     }
   }
   console.log(labelMapping);
