@@ -7,4 +7,4 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: Aveline-art/javascript-template-test@master
+        uses: Aveline-art/javascript-template-test@main
