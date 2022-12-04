@@ -6,7 +6,7 @@ interface mapping {
   [key: string]: string;
 }
 
-function main() {
+async function main() {
   const githubToken = core.getInput("githubToken");
   const labelMapping = getLabelMapping();
   const octokit = github.getOctokit(githubToken);
@@ -17,12 +17,14 @@ function main() {
   const leftovers = getLeftoverLabels(labelMapping, labels ? labels : []);
   const values = Object.values(leftovers);
   const properties = Object.keys(leftovers);
-  octokit.rest.issues.addLabels({
+  const response = await octokit.rest.issues.addLabels({
     owner: repository.owner,
     repo: repository.repo,
     issue_number: payload.issue.number,
     labels: values,
   });
+
+  console.log(response);
 }
 
 function getLeftoverLabels(mapping: mapping, labels: string[]) {

@@ -9538,7 +9538,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-function main() {
+async function main() {
     const githubToken = core.getInput("githubToken");
     const labelMapping = getLabelMapping();
     const octokit = github.getOctokit(githubToken);
@@ -9548,12 +9548,13 @@ function main() {
     const leftovers = getLeftoverLabels(labelMapping, labels ? labels : []);
     const values = Object.values(leftovers);
     const properties = Object.keys(leftovers);
-    octokit.rest.issues.addLabels({
+    const response = await octokit.rest.issues.addLabels({
         owner: repository.owner,
         repo: repository.repo,
         issue_number: payload.issue.number,
         labels: values,
     });
+    console.log(response);
 }
 function getLeftoverLabels(mapping, labels) {
     for (const label of labels) {
