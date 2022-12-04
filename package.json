@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "ncc build index.ts --license licenses.txt",
-    "test": "tsc --showConfig"
+    "test": "tsc --showConfig",
+    "watch": "ncc build index.ts --license licenses.txt --watch"
   },
   "keywords": [],
   "author": "",

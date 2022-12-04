@@ -36,7 +36,6 @@ function getLeftoverLabels(mapping: mapping, labels: string[]) {
 
 function getLabelMapping() {
   const labelMapping: mapping = {};
-  console.log(process.env);
   for (var key in process.env) {
     if (key.indexOf("INPUT_LABELMAP") == 0) {
       const mapData = process.env[key] as string;

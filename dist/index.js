@@ -9565,7 +9565,6 @@ function getLeftoverLabels(mapping, labels) {
 }
 function getLabelMapping() {
     const labelMapping = {};
-    console.log(process.env);
     for (var key in process.env) {
         if (key.indexOf("INPUT_LABELMAP") == 0) {
             const mapData = process.env[key];
