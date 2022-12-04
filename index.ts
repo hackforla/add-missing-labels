@@ -1,8 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { IssuesEvent, Label } from "@octokit/webhooks-definitions/schema";
-import { Api } from "@octokit/plugin-rest-endpoint-methods/dist-types/types";
-import { RestEndpointMethodTypes } from "@octokit/plugin-rest-endpoint-methods/dist-types/generated/parameters-and-response-types";
 
 interface mapping {
   [key: string]: string;
@@ -10,23 +8,21 @@ interface mapping {
 
 function main() {
   const githubToken = core.getInput("githubToken");
-  const mapping = getMapping();
+  const labelMapping = getLabelMapping();
   const octokit = github.getOctokit(githubToken);
   const repository = github.context.repo;
   const payload = github.context.payload as IssuesEvent;
   const labels = payload.issue.labels?.map((x: Label) => x?.name);
 
-  const leftovers = getLeftoverLabels(mapping, labels ? labels : []);
+  const leftovers = getLeftoverLabels(labelMapping, labels ? labels : []);
   const values = Object.values(leftovers);
   const properties = Object.keys(leftovers);
-  /*
   octokit.rest.issues.addLabels({
     owner: repository.owner,
     repo: repository.repo,
     issue_number: payload.issue.number,
     labels: values,
-  });*/
-  console.log(process.env);
+  });
 }
 
 function getLeftoverLabels(mapping: mapping, labels: string[]) {
@@ -38,16 +34,14 @@ function getLeftoverLabels(mapping: mapping, labels: string[]) {
   return mapping;
 }
 
-function getMapping() {
+function getLabelMapping() {
   const labelMapping: mapping = {};
   console.log(process.env);
   for (var key in process.env) {
-    if (key.indexOf("INPUT_MAP") == 0) {
+    if (key.indexOf("INPUT_LABELMAP") == 0) {
       const mapData = process.env[key] as string;
-      console.log(key);
-      console.log(mapData);
-      //const [labelType, missingLabel] = mapData.split("~");
-      //labelMapping[labelType.trim()] = missingLabel.trim();
+      const [labelType, missingLabel] = mapData.split("~");
+      labelMapping[labelType.trim().toLowerCase()] = missingLabel.trim();
     }
   }
   return labelMapping;

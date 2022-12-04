@@ -9540,22 +9540,20 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 function main() {
     const githubToken = core.getInput("githubToken");
-    const mapping = getMapping();
+    const labelMapping = getLabelMapping();
     const octokit = github.getOctokit(githubToken);
     const repository = github.context.repo;
     const payload = github.context.payload;
     const labels = payload.issue.labels?.map((x) => x?.name);
-    const leftovers = getLeftoverLabels(mapping, labels ? labels : []);
+    const leftovers = getLeftoverLabels(labelMapping, labels ? labels : []);
     const values = Object.values(leftovers);
     const properties = Object.keys(leftovers);
-    /*
     octokit.rest.issues.addLabels({
-      owner: repository.owner,
-      repo: repository.repo,
-      issue_number: payload.issue.number,
-      labels: values,
-    });*/
-    console.log(process.env);
+        owner: repository.owner,
+        repo: repository.repo,
+        issue_number: payload.issue.number,
+        labels: values,
+    });
 }
 function getLeftoverLabels(mapping, labels) {
     for (const label of labels) {
@@ -9565,16 +9563,14 @@ function getLeftoverLabels(mapping, labels) {
     }
     return mapping;
 }
-function getMapping() {
+function getLabelMapping() {
     const labelMapping = {};
     console.log(process.env);
     for (var key in process.env) {
-        if (key.indexOf("INPUT_MAP") == 0) {
+        if (key.indexOf("INPUT_LABELMAP") == 0) {
             const mapData = process.env[key];
-            console.log(key);
-            console.log(mapData);
-            //const [labelType, missingLabel] = mapData.split("~");
-            //labelMapping[labelType.trim()] = missingLabel.trim();
+            const [labelType, missingLabel] = mapData.split("~");
+            labelMapping[labelType.trim().toLowerCase()] = missingLabel.trim();
         }
     }
     return labelMapping;

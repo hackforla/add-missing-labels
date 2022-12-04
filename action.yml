@@ -4,8 +4,9 @@ inputs:
   githubToken:
     description: "The GitHub Secrets token."
     required: true
-  map[]:
-    description: "Any number of label types mapped to their missing label name. The mappings must be separated by a tilde (~) symbol. Check the docs for more details."
+  labelMap1:
+    description: "Any number of label types mapped to their missing label name. The mappings must be separated by a tilde (~) symbol. To add more maps, simply add more yaml keys that starts with 'map'. Check the docs for more details."
+    required: true
 runs:
   using: "node16"
   main: "dist/index.js"
