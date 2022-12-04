@@ -9546,7 +9546,6 @@ async function main() {
     const octokit = github.getOctokit(githubToken);
     const repository = github.context.repo;
     const payload = github.context.payload;
-    console.log(repository);
     // Get labels to add
     const labels = payload.issue.labels?.map((x) => x?.name);
     const leftovers = getLeftoverLabels(labelMapping, labels ? labels : []);
